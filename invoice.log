@@ -1,0 +1,16 @@
+{
+    "folders": [
+        {
+            "name": "abia_moj_library",
+            "path": "abia_moj_library",
+            "external_id": "cd1fdcafce09776297f50766fbf34556f4"
+        },
+        {
+            "name": "abia_moj_library_backup",
+            "path": "abia_moj_library_backup",
+            "external_id": "ce2639c91309553c93c3877741d255d190"
+        }
+    ],
+    "next_cursor": null,
+    "total_count": 2
+}
