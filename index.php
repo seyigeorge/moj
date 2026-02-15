@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-define('CLOUD_NAME',   'pou7gd5q41xc');
-define('API_KEY',      '391811315489326');
-define('API_SECRET',   'a4C2cxJwMIm6ESvjE838fhtkeIY');
+define('CLOUD_NAME',   'dmbckag42');
+define('API_KEY',      '954523735387471');
+define('API_SECRET',   'iyHR_Djzqwj5uCOcV0uPXnzKLN8');
 define('BULK_API_URL', 'https://rgw.apis.ng/abia/sandbox/rgw.apis.ng/abia/sandbox/v1/BulkBillPayment');
 define('CLIENT_ID',    '130d455797627474d441d98732ddb644');
 define('MERCHANT_KEY', '1754309023682');
@@ -306,7 +306,14 @@ async function checkPayment() {
         const res = await fetch('check_payment.php?ref=' + paymentRef);
         const data = await res.json();
         if (data.status === 'success') {
-            window.location.href = "index.php?serve=1";
+            //window.location.href = "index.php?serve=1";
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = "index.php?serve=1";
+            document.body.appendChild(iframe);
+                    setTimeout(() => {
+                window.location.href = "index.php";
+            }, 2000);
         } else {
             setTimeout(checkPayment, 3000);
         }
@@ -349,52 +356,6 @@ if (isset($_GET['serve'])) {
     exit;
 }
 
-
-// if (isset($_GET['serve'])) {
-//     if (!isset($_SESSION['paid']) || $_SESSION['paid'] !== true) {
-//         die("Unauthorized access. Session status: " . (isset($_SESSION['paid']) ? 'Paid but session mismatch' : 'Not paid'));
-//     }
-
-//     $url = $_SESSION['file_to_serve'] ?? null;
-//     if (!$url) die("No file selected.");
-
-//     // 1. Detect Resource Type (IMPORTANT)
-//     // If the original URL has "/raw/", we MUST use "/raw/" in the signed URL
-//     $resourceType = (strpos($url, '/raw/') !== false) ? 'raw' : 'image';
-
-//     // 2. Extract Public ID
-//     $path = parse_url($url, PHP_URL_PATH);
-//     $pathParts = explode('/', $path);
-//     $typeIndex = array_search('upload', $pathParts) ?: array_search('authenticated', $pathParts);
-    
-//     // Grab everything after the version (v12345678)
-//     $publicIdWithExt = implode('/', array_slice($pathParts, $typeIndex + 2));
-//     $publicId = preg_replace('/\.[^.]+$/', '', $publicIdWithExt); 
-
-//     $timestamp = time();
-
-//     // 3. Create Signature
-//     // Format: public_id=[ID]&timestamp=[TIME][SECRET]
-//     $stringToSign = "public_id=" . $publicId . "&timestamp=" . $timestamp . API_SECRET;
-//     $signature = hash('sha1', $stringToSign);
-
-//     // LOG THIS: If you get a 401, copy this string from your log and 
-//     // compare it to the "String to sign" in the Cloudinary error.
-//     logMsg("DEBUG SIGNING: String='$stringToSign' | Signature='$signature'");
-
-//     // 4. Construct URL 
-//     // We use 'authenticated' because that's what your specific Cloudinary setup requires
-//     $signedUrl = "https://res.cloudinary.com/" . CLOUD_NAME . "/" . $resourceType . "/authenticated" .
-//                  "/fl_attachment:" . urlencode(basename($publicId)) . // Added ':' instead of '/' for better compatibility
-//                  "/v" . $timestamp . "/" . 
-//                  urlencode($publicId) . ".pdf" .
-//                  "?api_key=" . API_KEY . 
-//                  "&timestamp=" . $timestamp . 
-//                  "&signature=" . $signature;
-
-//     header('Location: ' . $signedUrl);
-//     exit;
-// }
 
 $base    = 'abia_moj_library';
 $folder  = $_GET['folder'] ?? $base;
